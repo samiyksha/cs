@@ -1,0 +1,30 @@
+!pip install pyDes
+
+import pyDes
+from time import time
+
+# Take user input for data and key
+data = input("Please enter plain text for encryption: ")
+keystring = input("Enter a 16 or 24 character string for key generation: ")
+
+# Validate key length
+if len(keystring) not in (16, 24):
+    raise ValueError("Key must be 16 or 24 characters long.")
+
+# Create a triple DES object (in ECB mode by default)
+k = pyDes.triple_des(keystring.encode(), padmode=pyDes.PAD_PKCS5)
+
+# Encrypt the data
+e = k.encrypt(data.encode())
+print("Cipher text (hex):", e.hex())
+
+# Decrypt to verify
+d = k.decrypt(e).decode()
+print("Decrypted plain text:", d)
+
+# Time 1,000 encryptions
+t1 = time()
+for i in range(1000):
+    _ = k.encrypt(data.encode())
+t2 = time()
+print("Elapsed time for 1,000 encryptions: {:0.3f}s".format(t2 - t1))
