@@ -1,0 +1,32 @@
+# Diffie-Hellman Key Exchange Algorithm
+
+# Input shared parameters
+sharedPrime = int(input("Enter shared Prime (n): "))
+sharedBase = int(input("Enter shared Base (g): "))
+aliceSecret = int(input("Enter Alice's Secret Key (x): "))
+bobSecret = int(input("Enter Bob's Secret Key (y): "))
+
+# Display shared variables
+print("\nPublicly Shared Variables:")
+print("    Publicly Shared Prime (n):", sharedPrime)
+print("    Publicly Shared Base  (g):", sharedBase)
+
+# Step 1: Alice computes A = g^x mod n
+A = pow(sharedBase, aliceSecret, sharedPrime)
+print("\nAlice Sends (A) Over Public Channel:", A)
+
+# Step 2: Bob computes B = g^y mod n
+B = pow(sharedBase, bobSecret, sharedPrime)
+print("Bob Sends (B) Over Public Channel:  ", B)
+
+# Step 3: Each computes shared secret
+print("\n------------")
+print("Privately Calculated Shared Secret:")
+
+# Alice computes: K = B^x mod n
+aliceSharedSecret = pow(B, aliceSecret, sharedPrime)
+print("    Alice's Shared Secret: ", aliceSharedSecret)
+
+# Bob computes: K = A^y mod n
+bobSharedSecret = pow(A, bobSecret, sharedPrime)
+print("    Bob's Shared Secret:   ", bobSharedSecret)
